@@ -1,15 +1,113 @@
-<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Ozela — Поддержка / Support</title><style>
-:root{--bg:#F2F3F5;--fg:#121417;--soft:#5B6068;--card:#FFFFFF;--line:#E2E5E8;--acc:#0A7A54}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#000;--fg:#F2F3F5;--soft:#AEAEB2;--card:#1C1C1E;--line:#38383A;--acc:#30C27A;color-scheme:dark}}
-:root[data-theme="dark"]{--bg:#000;--fg:#F2F3F5;--soft:#AEAEB2;--card:#1C1C1E;--line:#38383A;--acc:#30C27A;color-scheme:dark}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif}
-.wrap{max-width:760px;margin:0 auto;padding:32px 16px 64px}
-h1{font-size:32px;line-height:1.15;letter-spacing:-.02em;margin:0 0 6px}h2{font-size:20px;margin:28px 0 6px}
-.meta{color:var(--soft);margin:0 0 20px}.card{background:var(--card);border-radius:16px;padding:20px 22px;margin:0 0 18px}
-nav a{color:var(--acc);font-weight:600;margin-right:16px;text-decoration:none}a{color:var(--acc)}ul{padding-left:20px}li{margin:4px 0}
-</style></head><body><div class="wrap"><p style="margin:0 0 8px"><a href="/" style="text-decoration:none;font-weight:600">← ozela.org</a></p><h1>Поддержка · Support</h1><p class="meta">Ozela · GLP-1 Tracker</p>
-<div class="card"><h2 style="margin-top:0">Связаться с нами</h2><p>Вопросы, ошибки, предложения: <a href="mailto:aityshevbahtiyar@gmail.com">aityshevbahtiyar@gmail.com</a>. Отвечаем в течение 1–2 рабочих дней.</p>
-<h2>Подписка Ozela Plus</h2><p>Оплату обрабатывает Apple. Отменить подписку: Настройки iPhone → ваше имя → Подписки → Ozela Plus. Восстановить покупку: экран Ozela Plus в приложении → «Восстановить».</p>
-<h2>Данные</h2><p>Записи хранятся только на вашем телефоне. Копию можно включить в iCloud в настройках приложения. Подробнее — в <a href="/privacy/">политике конфиденциальности</a>.</p>
-<h2>Важно</h2><p>Ozela — не медицинское изделие, не назначает и не рассчитывает дозы. Схему лечения определяет врач.</p></div>
-<div class="card"><h2 style="margin-top:0">Contact</h2><p>Questions, bugs, suggestions: <a href="mailto:aityshevbahtiyar@gmail.com">aityshevbahtiyar@gmail.com</a>. To cancel Ozela Plus: iPhone Settings → your name → Subscriptions → Ozela Plus. See our <a href="/privacy/#en">Privacy Policy</a>.</p></div></div></body></html>
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ozela — Поддержка / Support</title>
+<meta name="description" content="Поддержка Ozela · GLP-1 Tracker: частые вопросы и форма связи.">
+<link rel="icon" href="/favicon.png">
+<style>
+:root{--g:#0A7A54;--gl:#E3F3EB;--ink:#121714;--soft:#57615B;--faint:#8A948E;--bg:#F4F6F5;--card:#fff;--line:#E3E7E5;--input:#F7F8F8;--acc:#0A7A54}
+@media (prefers-color-scheme:dark){:root{--ink:#ECF1EE;--soft:#A7B2AC;--faint:#76817B;--bg:#0B0F0D;--card:#151B18;--line:#25302B;--gl:#13261D;--input:#0F1412;--acc:#3CC48A;color-scheme:dark}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif}
+a{color:var(--acc)}
+.w{max-width:780px;margin:0 auto;padding:0 16px}
+header{border-bottom:1px solid var(--line);background:var(--card)}
+.hd{display:flex;align-items:center;gap:16px;height:58px}
+.logo{display:flex;align-items:center;gap:9px;font-weight:800;font-size:18px;color:var(--ink);text-decoration:none}
+.logo img{width:28px;height:28px;border-radius:8px}
+.hd a.l{margin-left:auto;color:var(--soft);text-decoration:none;font-weight:600;font-size:15px}
+h1{font-size:36px;line-height:1.1;letter-spacing:-1px;margin:36px 0 6px}
+h2{font-size:21px;margin:0 0 12px;letter-spacing:-.3px}
+.meta{color:var(--soft);margin:0 0 26px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:24px;margin:0 0 16px}
+.tip{display:flex;gap:12px;background:var(--gl);border-radius:16px;padding:16px 18px;margin:0 0 16px;color:var(--ink)}
+.tip i{font-style:normal;font-size:22px}
+details{border-bottom:1px solid var(--line)}
+details:last-child{border-bottom:0}
+summary{cursor:pointer;list-style:none;padding:14px 0;font-weight:700;display:flex;gap:12px}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";margin-left:auto;font-size:20px;color:var(--faint)}
+details[open] summary::after{content:"−"}
+details p{margin:0 0 14px;color:var(--soft)}
+label.f{display:block;margin:0 0 14px}
+label.f span{display:block;font-size:13px;font-weight:700;color:var(--soft);margin:0 0 6px}
+input,textarea{width:100%;font:inherit;color:inherit;background:var(--input);border:1px solid var(--line);border-radius:12px;padding:11px 13px;outline:none}
+input:focus,textarea:focus{border-color:var(--acc)}
+textarea{min-height:130px;resize:vertical}
+.send{border:0;background:var(--acc);color:#fff;font:inherit;font-weight:750;border-radius:13px;padding:12px 22px;cursor:pointer}
+@media (prefers-color-scheme:dark){.send{color:#04150D}}
+.send:disabled{opacity:.5}
+.ok{background:var(--gl);color:var(--acc);border-radius:14px;padding:14px 16px;font-weight:650}
+.err{color:#C4372B;font-size:14px;margin:8px 0 0}
+.hp{position:absolute;left:-9999px}
+.small{color:var(--soft);font-size:14px}
+footer{padding:20px 0 48px;color:var(--soft);font-size:14px}
+footer a{color:var(--soft);font-weight:600;text-decoration:none;margin-right:18px}
+</style>
+</head>
+<body>
+<header><div class="w hd"><a class="logo" href="/"><img src="/logo.png" alt="">Ozela</a><a class="l" href="/">← На главную</a></div></header>
+<main class="w">
+  <h1>Поддержка</h1>
+  <p class="meta">Ozela · GLP-1 Tracker — ответим в течение 1–2 рабочих дней.</p>
+
+  <div class="tip"><i>💬</i><div><b>Приложение уже установлено?</b><br>Напишите из него: Профиль → «Написать в поддержку». Ответ придёт прямо в приложение и уведомлением.</div></div>
+
+  <div class="card">
+    <h2>Частые вопросы</h2>
+    <div id="faqlist">
+      <details><summary>Где хранятся мои данные?</summary><p>Только на вашем телефоне. По желанию — копия в вашем iCloud. На наш сервер записи о терапии не отправляются.</p></details>
+      <details><summary>Ozela подбирает дозу?</summary><p>Нет. Дозу и схему назначает врач, приложение только помогает отмечать уколы и самочувствие.</p></details>
+      <details><summary>Как отменить подписку?</summary><p>Настройки iPhone → ваше имя → Подписки → Ozela Plus.</p></details>
+      <details><summary>Как восстановить покупку?</summary><p>На экране Ozela Plus в приложении нажмите «Восстановить».</p></details>
+      <details><summary>Моего препарата нет в списке</summary><p>Выберите «Другой препарат»: введите название, форму, частоту и дозу — как в назначении.</p></details>
+    </div>
+  </div>
+
+  <div class="card" id="write">
+    <h2>Написать нам</h2>
+    <form id="cf" novalidate>
+      <label class="f"><span>Ваша почта</span><input id="cmail" type="email" autocomplete="email" required placeholder="name@mail.com"></label>
+      <label class="f"><span>Сообщение</span><textarea id="cmsg" required maxlength="4000" placeholder="Опишите вопрос или ошибку. Если это ошибка — укажите модель iPhone и что вы делали."></textarea></label>
+      <input class="hp" id="cweb" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <button class="send" id="csend" type="submit">Отправить</button>
+      <p class="err" id="cerr" role="alert"></p>
+    </form>
+    <p class="small" style="margin:14px 0 0">Или на почту: <a href="mailto:aityshevbahtiyar@gmail.com">aityshevbahtiyar@gmail.com</a>. Не пишите лишних сведений о здоровье — вопросы о лечении задавайте врачу.</p>
+  </div>
+
+  <div class="card">
+    <h2>Данные и подписка</h2>
+    <p>Записи хранятся только на вашем телефоне; копию можно включить в iCloud в настройках приложения. Оплату подписки обрабатывает Apple. Подробнее — в <a href="/privacy/">политике конфиденциальности</a>.</p>
+    <p class="small" style="margin:0">Ozela — не медицинское изделие, не назначает и не рассчитывает дозы. Схему лечения определяет врач.</p>
+  </div>
+
+  <div class="card" id="en">
+    <h2>Support (English)</h2>
+    <p style="margin:0">Questions, bugs, suggestions: use the form above or email <a href="mailto:aityshevbahtiyar@gmail.com">aityshevbahtiyar@gmail.com</a>. In the app: Profile → “Contact support”. To cancel Ozela Plus: iPhone Settings → your name → Subscriptions → Ozela Plus. See our <a href="/privacy/#en">Privacy Policy</a>.</p>
+  </div>
+</main>
+<footer><div class="w">© 2026 Ozela · <a href="/privacy/">Конфиденциальность</a><a href="https://www.apple.com/legal/internet-services/itunes/dev/stdeula/">Условия</a></div></footer>
+<script>
+const API='https://dgojfjcsfxnsfkqocoba.supabase.co/functions/v1/';
+fetch(API+'content').then(r=>r.ok?r.json():null).then(j=>{const f=j&&j.sections&&j.sections.faq&&j.sections.faq.ru;if(!Array.isArray(f)||!f.length)return;
+  const box=document.getElementById('faqlist');box.replaceChildren();
+  for(const [q,a] of f){if(!q)continue;const d=document.createElement('details'),s=document.createElement('summary'),p=document.createElement('p');s.textContent=q;p.textContent=a||'';d.append(s,p);box.append(d)}}).catch(()=>{});
+function devId(){let id=null;try{id=localStorage.getItem('ozela-web-id')}catch{}if(!id){id=crypto.randomUUID?crypto.randomUUID():'10000000-1000-4000-8000-100000000000'.replace(/[018]/g,c=>(c^crypto.getRandomValues(new Uint8Array(1))[0]&15>>c/4).toString(16));try{localStorage.setItem('ozela-web-id',id)}catch{}}return id}
+document.getElementById('cf').addEventListener('submit',async e=>{
+  e.preventDefault();const err=document.getElementById('cerr'),btn=document.getElementById('csend');err.textContent='';
+  if(document.getElementById('cweb').value)return;
+  const contact=document.getElementById('cmail').value.trim(),body=document.getElementById('cmsg').value.trim();
+  if(!/^\S+@\S+\.\S+$/.test(contact)){err.textContent='Укажите почту — ответ придёт на неё';return}
+  if(body.length<5){err.textContent='Напишите сообщение';return}
+  btn.disabled=true;btn.textContent='Отправляем…';
+  try{const r=await fetch(API+'support',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'send',source:'web',device_id:devId(),contact,body,app_version:'сайт',lang:'ru'})});
+    const j=await r.json().catch(()=>({}));if(!r.ok)throw new Error(j.error||r.status);
+    const ok=document.createElement('div');ok.className='ok';ok.textContent='Спасибо! Сообщение отправлено — ответим на '+contact+'.';e.target.replaceWith(ok);
+  }catch(x){btn.disabled=false;btn.textContent='Отправить';err.textContent=String(x.message)==='limit'?'Слишком много сообщений. Попробуйте завтра.':'Не отправилось. Проверьте интернет или напишите на почту ниже.'}
+});
+</script>
+</body>
+</html>
