@@ -378,7 +378,7 @@ async function loadBuy(){
     el('div',{class:'card tile'},el('div',{class:'n',text:`${bp['ozela.plus.year']||0} / ${bp['ozela.plus.month']||0}`}),el('div',{class:'l',text:'Год / месяц (оформления и оплаты)'})));
   const rows=s.recent||[];
   const tb=$('#btable');
-  if(!rows.length){tb.replaceChildren(el('tr',{},el('td',{class:'muted',text:s.last_event?'За выбранный период событий нет.':'От Apple ещё не пришло ни одного уведомления. Они появятся после первой покупки или пробного периода.'})));return}
+  if(!rows.length){tb.replaceChildren(el('tr',{},el('td',{class:'muted',text:s.last_event?(BENV==='Production'?'Настоящих покупок пока нет. Покупки из TestFlight — во вкладке «Тест».':'За выбранный период событий нет.'):'От Apple ещё не пришло ни одного уведомления. Они появятся после первой покупки или пробного периода.'})));return}
   tb.replaceChildren(el('tr',{},...['Когда','Событие','Тариф','Сумма','Страна','Действует до'].map(h=>el('th',{text:h}))),
     ...rows.map(r=>el('tr',{},el('td',{text:r.signed_date?fmtDate(r.signed_date):''}),
       el('td',{},el('span',{class:'pill'+(r.type==='REFUND'?' r':(r.price>0?' g':'')),text:(EV[r.type]||r.type)+(r.subtype&&SUB[r.subtype]?' · '+SUB[r.subtype]:'')}),r.offer_discount_type==='FREE_TRIAL'?el('span',{class:'pill',style:'margin-left:4px',text:'пробный'}):null),
