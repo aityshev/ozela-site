@@ -150,7 +150,7 @@ input[type=password]{width:100%;background:var(--input);border:1px solid var(--l
       <p style="margin:14px 0 0;text-align:center"><button class="lnk" id="topass">← Войти с паролем</button></p>
     </div>
     <div id="l2" class="hidden">
-      <p>Письмо отправлено на <b id="lsent"></b>. Откройте ссылку из письма на этом устройстве. Если в письме есть код — введите его здесь:</p>
+      <p>Если <b id="lsent"></b> есть в списке админов, на неё придёт письмо. Откройте ссылку из письма на этом устройстве или введите код здесь:</p>
       <label class="f"><span>Код из письма</span><input id="lcode" type="text" inputmode="numeric" autocomplete="one-time-code" placeholder="123456"></label>
       <div class="row"><button class="btn" id="lverify">Войти</button><button class="btn ghost" id="lback">Другая почта</button></div>
     </div>
@@ -288,9 +288,9 @@ $('#lsend').onclick=async()=>{
   const email=$('#lemail').value.trim().toLowerCase(); $('#lerr').textContent='';
   if(!/^\S+@\S+\.\S+$/.test(email)){$('#lerr').textContent='Введите почту';return}
   $('#lsend').disabled=true;
-  const{error}=await sb.auth.signInWithOtp({email,options:{emailRedirectTo:location.origin+'/admin/',shouldCreateUser:true}});
+  const{error}=await sb.auth.signInWithOtp({email,options:{emailRedirectTo:location.origin+'/admin/',shouldCreateUser:false}});
   $('#lsend').disabled=false;
-  if(error){$('#lerr').textContent=/rate|seconds/i.test(error.message)?'Слишком часто. Подождите минуту и попробуйте снова.':'Не удалось отправить письмо: '+error.message;return}
+  if(error&&!/signup|not allowed|not found/i.test(error.message)){$('#lerr').textContent=/rate|seconds/i.test(error.message)?'Слишком часто. Подождите минуту и попробуйте снова.':'Не удалось отправить письмо: '+error.message;return}
   $('#lsent').textContent=email; $('#l1').classList.add('hidden'); $('#l2').classList.remove('hidden');
   try{localStorage.setItem('ozela-admin-email',email)}catch{}
 };
