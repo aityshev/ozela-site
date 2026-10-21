@@ -108,7 +108,18 @@ textarea{resize:vertical;min-height:70px}
 table.t{width:100%;border-collapse:collapse;font-size:14px}
 table.t td,table.t th{text-align:left;padding:8px 6px;border-bottom:1px solid var(--line);vertical-align:top}
 table.t th{color:var(--soft);font-weight:650;font-size:12px}
+input[type=password]{width:100%;background:var(--input);border:1px solid var(--line);border-radius:10px;padding:9px 11px;outline:none}
+.lnk{background:none;border:0;padding:0;color:var(--g);cursor:pointer;font-weight:600;font-size:14px}
+.topbar{display:none}
+.money{font-size:26px;font-weight:750;letter-spacing:-.5px;font-variant-numeric:tabular-nums}
+.pill{display:inline-block;font-size:12px;font-weight:650;border-radius:99px;padding:2px 8px;background:var(--bg);color:var(--soft)}
+.pill.g{background:var(--gl);color:var(--g)}.pill.r{color:var(--red)}
 @media (max-width:860px){
+ .topbar{display:flex;align-items:center;gap:10px;padding:10px 16px;background:var(--card);border-bottom:1px solid var(--line)}
+ .topbar img{width:30px;height:30px;border-radius:8px}
+ .topbar b{font-size:17px}
+ .topbar small{color:var(--faint);font-size:12px}
+ .topbar a{margin-left:auto;font-size:14px;font-weight:600}
  .app{grid-template-columns:1fr}
  nav.side{position:sticky;top:0;height:auto;flex-direction:row;overflow-x:auto;padding:8px;z-index:5;border-right:0;border-bottom:1px solid var(--line)}
  .brand,.side .who{display:none}
@@ -126,10 +137,17 @@ table.t th{color:var(--soft);font-weight:650;font-size:12px}
   <div class="box">
     <img src="/logo.png" alt="">
     <h1>Админка Ozela</h1>
-    <p>Войдите по почте — пришлём ссылку для входа. Пароль не нужен.</p>
-    <div id="l1">
+    <p id="lhint">Войдите по почте и паролю.</p>
+    <div id="l0">
+      <label class="f"><span>Почта</span><input id="pemail" type="email" autocomplete="username" placeholder="you@mail.com"></label>
+      <label class="f"><span>Пароль</span><input id="ppass" type="password" autocomplete="current-password"></label>
+      <button class="btn" id="plogin" style="width:100%">Войти</button>
+      <p style="margin:14px 0 0;text-align:center"><button class="lnk" id="tocode">Нет пароля или забыли? Войти по коду из письма</button></p>
+    </div>
+    <div id="l1" class="hidden">
       <label class="f"><span>Почта</span><input id="lemail" type="email" autocomplete="email" placeholder="you@mail.com"></label>
-      <button class="btn" id="lsend" style="width:100%">Получить ссылку</button>
+      <button class="btn" id="lsend" style="width:100%">Получить код</button>
+      <p style="margin:14px 0 0;text-align:center"><button class="lnk" id="topass">← Войти с паролем</button></p>
     </div>
     <div id="l2" class="hidden">
       <p>Письмо отправлено на <b id="lsent"></b>. Откройте ссылку из письма на этом устройстве. Если в письме есть код — введите его здесь:</p>
@@ -145,12 +163,15 @@ table.t th{color:var(--soft);font-weight:650;font-size:12px}
 </section>
 
 <div id="app" class="app hidden">
+  <div class="topbar"><img src="/logo.png" alt=""><div><b>Ozela</b> <small>админка</small></div><a href="#" data-out>Выйти</a></div>
   <nav class="side">
     <div class="brand"><img src="/logo.png" alt=""><div><b>Ozela</b><small>админка</small></div></div>
     <button class="nav on" data-p="stats">📊 Обзор</button>
     <button class="nav" data-p="support">💬 Поддержка <span class="badge hidden" id="nbadge"></span></button>
     <button class="nav" data-p="push">🔔 Пуши</button>
+    <button class="nav" data-p="buy">💳 Покупки</button>
     <button class="nav" data-p="content">✏️ Контент приложения</button>
+    <button class="nav" data-p="admins">👥 Админы</button>
     <div class="who"><span id="who"></span><br><a href="#" data-out>Выйти</a> · <a href="/">Сайт</a></div>
   </nav>
   <main>
@@ -166,6 +187,36 @@ table.t th{color:var(--soft);font-weight:650;font-size:12px}
         <div class="card"><h3>Препараты</h3><div id="drugs"></div><h3 style="margin-top:16px">Языки</h3><div id="langs"></div><h3 style="margin-top:16px">Версии</h3><div id="vers"></div></div>
       </div>
       <p class="muted" id="gen"></p>
+    </section>
+
+    <!-- ПОКУПКИ -->
+    <section id="p-buy" class="hidden">
+      <div class="row"><div><h2 class="page">Покупки</h2><p class="sub">Подписки Ozela Plus — данные приходят напрямую от App Store.</p></div><span class="sp"></span>
+        <div class="seg" id="benv"><button data-e="Production" class="on">App Store</button><button data-e="Sandbox">Тест</button></div>
+        <div class="seg" id="bdays"><button data-d="7">7 дней</button><button data-d="30" class="on">30 дней</button><button data-d="90">90 дней</button><button data-d="3650">Всё время</button></div></div>
+      <div class="grid g4" id="btiles"></div>
+      <div class="card" style="margin-top:12px"><h3>Последние события</h3><div style="overflow-x:auto"><table class="t" id="btable"></table></div></div>
+      <p class="muted" id="bnote">Суммы — цена для покупателя в его валюте, до комиссии Apple (15–30%) и налогов. Выплаты и точные суммы — в App Store Connect → «Платежи и финансовые отчёты».</p>
+    </section>
+
+    <!-- АДМИНЫ -->
+    <section id="p-admins" class="hidden">
+      <h2 class="page">Админы</h2><p class="sub">Кто может входить в эту админку.</p>
+      <div class="grid g2">
+        <div class="card"><h3>Список</h3><table class="t" id="alist"></table></div>
+        <div>
+          <div class="card"><h3>Добавить админа</h3>
+            <label class="f"><span>Почта</span><input id="aemail" type="email" placeholder="name@mail.com"></label>
+            <label class="f"><span>Пароль (необязательно, от 8 символов)</span><input id="apass" type="password" autocomplete="new-password" placeholder="можно оставить пустым"></label>
+            <p class="muted" style="margin:0 0 12px">Без пароля человек войдёт по коду из письма и задаст свой пароль здесь же.</p>
+            <button class="btn" id="aadd">Добавить</button></div>
+          <div class="card" style="margin-top:12px"><h3>Мой пароль</h3>
+            <p class="muted" id="mypassnote" style="margin:0 0 12px"></p>
+            <label class="f"><span>Новый пароль (от 8 символов)</span><input id="mypass" type="password" autocomplete="new-password"></label>
+            <label class="f"><span>Ещё раз</span><input id="mypass2" type="password" autocomplete="new-password"></label>
+            <button class="btn" id="mysave">Сохранить пароль</button></div>
+        </div>
+      </div>
     </section>
 
     <!-- ПОДДЕРЖКА -->
@@ -243,6 +294,19 @@ $('#lsend').onclick=async()=>{
   $('#lsent').textContent=email; $('#l1').classList.add('hidden'); $('#l2').classList.remove('hidden');
   try{localStorage.setItem('ozela-admin-email',email)}catch{}
 };
+const loginMode=m=>{$('#l0').classList.toggle('hidden',m!=='pass');$('#l1').classList.toggle('hidden',m!=='code');$('#l2').classList.add('hidden');$('#lerr').textContent='';$('#lhint').textContent=m==='pass'?'Войдите по почте и паролю.':'Пришлём на почту код для входа. После входа можно задать пароль во вкладке «Админы».'};
+$('#tocode').onclick=()=>{$('#lemail').value=$('#pemail').value;loginMode('code')};
+$('#topass').onclick=()=>loginMode('pass');
+$('#plogin').onclick=async()=>{
+  const email=$('#pemail').value.trim().toLowerCase(),password=$('#ppass').value; $('#lerr').textContent='';
+  if(!/^\S+@\S+\.\S+$/.test(email)||!password){$('#lerr').textContent='Введите почту и пароль';return}
+  $('#plogin').disabled=true;
+  const{error}=await sb.auth.signInWithPassword({email,password});
+  $('#plogin').disabled=false;
+  if(error){$('#lerr').textContent=/invalid/i.test(error.message)?'Неверная почта или пароль. Если пароль ещё не задан — войдите по коду.':'Не удалось войти: '+error.message;return}
+  try{localStorage.setItem('ozela-admin-email',email)}catch{}
+};
+$('#ppass').addEventListener('keydown',e=>{if(e.key==='Enter')$('#plogin').click()});
 $('#lback').onclick=()=>{$('#l2').classList.add('hidden');$('#l1').classList.remove('hidden')};
 $('#lverify').onclick=async()=>{
   const token=$('#lcode').value.trim(), email=$('#lsent').textContent;
@@ -250,7 +314,7 @@ $('#lverify').onclick=async()=>{
   if(error)$('#lerr').textContent='Код не подошёл или устарел';
 };
 $$('[data-out]').forEach(b=>b.onclick=async e=>{e.preventDefault();await sb.auth.signOut();location.replace('/admin/')});
-try{$('#lemail').value=localStorage.getItem('ozela-admin-email')||''}catch{}
+try{$('#lemail').value=$('#pemail').value=localStorage.getItem('ozela-admin-email')||''}catch{}
 
 let booted=false;
 async function onSession(session){
@@ -260,6 +324,7 @@ async function onSession(session){
   if(error||!data||!data.length){$('#dmail').textContent=ME;show('denied');return}
   $('#who').textContent=ME; show('app');
   if(location.hash.includes('access_token'))history.replaceState(null,'',location.pathname);
+  if(!booted){sb.rpc('admin_list').then(({data})=>{const m=(data||[]).find(a=>a.email===ME.toLowerCase());if(m&&!m.has_password)setTimeout(()=>toast('Задайте пароль во вкладке «Админы» — будете входить без кода'),800)});}
   if(!booted){booted=true;go(localStorage.getItem('ozela-admin-page')||'stats');refreshBadge();setInterval(refreshBadge,60000)}
 }
 sb.auth.onAuthStateChange((_e,s)=>{setTimeout(()=>onSession(s),0)});
@@ -267,7 +332,7 @@ sb.auth.getSession().then(({data})=>onSession(data.session));
 if(/error_description=/.test(location.hash)){const m=decodeURIComponent((location.hash.match(/error_description=([^&]+)/)||[])[1]||'').replace(/\+/g,' ');setTimeout(()=>{$('#lerr').textContent='Ссылка не сработала ('+m+'). Запросите новую.'},300)}
 
 /* ---------- навигация ---------- */
-const loaders={stats:loadStats,support:loadTickets,push:loadPush,content:loadSections};
+const loaders={stats:loadStats,support:loadTickets,push:loadPush,buy:loadBuy,content:loadSections,admins:loadAdmins};
 function go(p){if(!loaders[p])p='stats';$$('.nav').forEach(b=>b.classList.toggle('on',b.dataset.p===p));for(const k in loaders)$('#p-'+k).classList.toggle('hidden',k!==p);try{localStorage.setItem('ozela-admin-page',p)}catch{};loaders[p]()}
 $$('.nav').forEach(b=>b.onclick=()=>go(b.dataset.p));
 
@@ -291,6 +356,77 @@ async function loadStats(){
   $('#gen').textContent='Обновлено '+fmtDate(s.generated_at||Date.now());
   setBadge(s.support_open);
 }
+
+/* ---------- покупки ---------- */
+let BDAYS=30,BENV='Production';
+$$('#bdays button').forEach(b=>b.onclick=()=>{BDAYS=+b.dataset.d;$$('#bdays button').forEach(x=>x.classList.toggle('on',x===b));loadBuy()});
+$$('#benv button').forEach(b=>b.onclick=()=>{BENV=b.dataset.e;$$('#benv button').forEach(x=>x.classList.toggle('on',x===b));loadBuy()});
+const money=(v,c)=>{try{return new Intl.NumberFormat('ru-RU',{style:'currency',currency:c,maximumFractionDigits:2}).format(v)}catch{return (+v).toFixed(2)+' '+c}};
+const PLAN={'ozela.plus.year':'Год','ozela.plus.month':'Месяц'};
+const EV={SUBSCRIBED:'Оформил подписку',DID_RENEW:'Оплата',DID_CHANGE_RENEWAL_STATUS:'Автопродление',EXPIRED:'Подписка закончилась',DID_FAIL_TO_RENEW:'Не удалось списать',GRACE_PERIOD_EXPIRED:'Льготный период закончился',REFUND:'Возврат',REFUND_DECLINED:'В возврате отказано',REFUND_REVERSED:'Возврат отменён',REVOKE:'Доступ отозван',DID_CHANGE_RENEWAL_PREF:'Сменил тариф',OFFER_REDEEMED:'Промо-предложение',PRICE_INCREASE:'Повышение цены',RENEWAL_EXTENDED:'Продление срока',TEST:'Тестовое уведомление'};
+const SUB={INITIAL_BUY:'впервые',RESUBSCRIBE:'снова',AUTO_RENEW_DISABLED:'отключил',AUTO_RENEW_ENABLED:'включил',VOLUNTARY:'отменил сам',BILLING_RETRY:'не прошла оплата',UPGRADE:'повышение',DOWNGRADE:'понижение',BILLING_RECOVERY:'оплата восстановлена'};
+async function loadBuy(){
+  const{data:s,error}=await sb.rpc('admin_purchases',{p_days:BDAYS,p_env:BENV});
+  if(error){$('#btiles').replaceChildren(el('p',{class:'err',text:'Ошибка: '+error.message}));return}
+  const rev=s.revenue||[];
+  const revTile=el('div',{class:'card tile',style:'grid-column:span 2'},
+    rev.length?el('div',{},...rev.map(r=>el('div',{class:'money',text:money(r.net,r.currency)}))):el('div',{class:'money',text:'0'}),
+    el('div',{class:'l',text:'Сумма покупок'+(rev.some(r=>+r.refunds)?' (за вычетом возвратов)':'')}));
+  const tiles=[['Активных подписок',s.active],['Пробных начато',s.trials],['Оплат',(s.subscribed_paid||0)+(s.renewals||0)],['Отключили автопродление',s.cancels],['Подписок закончилось',s.expired],['Возвратов',s.refunds]];
+  const bp=s.by_product||{};
+  $('#btiles').replaceChildren(revTile,...tiles.map(([l,n])=>el('div',{class:'card tile'},el('div',{class:'n',text:n??0}),el('div',{class:'l',text:l}))),
+    el('div',{class:'card tile'},el('div',{class:'n',text:`${bp['ozela.plus.year']||0} / ${bp['ozela.plus.month']||0}`}),el('div',{class:'l',text:'Год / месяц (оформления и оплаты)'})));
+  const rows=s.recent||[];
+  const tb=$('#btable');
+  if(!rows.length){tb.replaceChildren(el('tr',{},el('td',{class:'muted',text:s.last_event?'За выбранный период событий нет.':'От Apple ещё не пришло ни одного уведомления. Они появятся после первой покупки или пробного периода.'})));return}
+  tb.replaceChildren(el('tr',{},...['Когда','Событие','Тариф','Сумма','Страна','Действует до'].map(h=>el('th',{text:h}))),
+    ...rows.map(r=>el('tr',{},el('td',{text:r.signed_date?fmtDate(r.signed_date):''}),
+      el('td',{},el('span',{class:'pill'+(r.type==='REFUND'?' r':(r.price>0?' g':'')),text:(EV[r.type]||r.type)+(r.subtype&&SUB[r.subtype]?' · '+SUB[r.subtype]:'')}),r.offer_discount_type==='FREE_TRIAL'?el('span',{class:'pill',style:'margin-left:4px',text:'пробный'}):null),
+      el('td',{text:PLAN[r.product_id]||r.product_id||''}),
+      el('td',{text:r.price!=null&&r.currency?(r.type==='REFUND'?'−':'')+money(r.price,r.currency):''}),
+      el('td',{text:r.storefront||''}),
+      el('td',{text:r.expires_date?fmtDate(r.expires_date):''}))));
+}
+
+/* ---------- админы ---------- */
+async function adminFn(body){
+  const{data:{session}}=await sb.auth.getSession();
+  const r=await fetch(SB_URL+'/functions/v1/admins',{method:'POST',headers:{'Content-Type':'application/json',apikey:SB_KEY,Authorization:'Bearer '+(session?.access_token||'')},body:JSON.stringify(body)});
+  const j=await r.json().catch(()=>({}));if(!r.ok)throw new Error(j.error||String(r.status));return j;
+}
+const AERR={self:'Нельзя удалить себя',last:'Нельзя удалить последнего админа',short:'Пароль — от 8 символов',email:'Проверьте почту',forbidden:'Нет прав'};
+async function loadAdmins(){
+  const{data,error}=await sb.rpc('admin_list');const t=$('#alist');
+  if(error){t.replaceChildren(el('tr',{},el('td',{class:'err',text:'Ошибка: '+error.message})));return}
+  const me=(data||[]).find(a=>a.email===ME.toLowerCase());
+  $('#mypassnote').textContent=me&&me.has_password?'Пароль задан. Можно сменить.':'Пароль ещё не задан — задайте, чтобы входить без кода из письма.';
+  t.replaceChildren(el('tr',{},el('th',{text:'Почта'}),el('th',{text:'Последний вход'}),el('th',{text:''})),
+    ...(data||[]).map(a=>el('tr',{},
+      el('td',{},el('div',{text:a.email+(a.email===ME.toLowerCase()?' (вы)':'')}),el('div',{class:'muted',style:'font-size:12px',text:(a.has_password?'с паролем':'вход по коду')+(a.added_by?' · добавил '+a.added_by:'')})),
+      el('td',{text:a.last_sign_in?fmtDate(a.last_sign_in):'ещё не входил'}),
+      el('td',{},a.email===ME.toLowerCase()?null:el('button',{class:'btn danger sm',text:'Удалить',onclick:async()=>{
+        if(!confirm('Убрать '+a.email+' из админов?'))return;
+        try{await adminFn({action:'remove',email:a.email});toast('Удалён');loadAdmins()}catch(e){toast(AERR[e.message]||'Ошибка: '+e.message)}}})))));
+}
+$('#aadd').onclick=async()=>{
+  const email=$('#aemail').value.trim().toLowerCase(),password=$('#apass').value;
+  if(!/^\S+@\S+\.\S+$/.test(email)){toast('Введите почту');return}
+  if(password&&password.length<8){toast('Пароль — от 8 символов');return}
+  $('#aadd').disabled=true;
+  try{await adminFn({action:'add',email,password});$('#aemail').value='';$('#apass').value='';toast('Добавлен: '+email);loadAdmins()}
+  catch(e){toast(AERR[e.message]||'Ошибка: '+e.message)}
+  finally{$('#aadd').disabled=false}
+};
+$('#mysave').onclick=async()=>{
+  const a=$('#mypass').value,b=$('#mypass2').value;
+  if(a.length<8){toast('Пароль — от 8 символов');return}
+  if(a!==b){toast('Пароли не совпадают');return}
+  $('#mysave').disabled=true;
+  const{error}=await sb.auth.updateUser({password:a});
+  $('#mysave').disabled=false;
+  if(error){toast(/reauth|recent/i.test(error.message)?'Войдите заново по коду и повторите':'Ошибка: '+error.message);return}
+  $('#mypass').value=$('#mypass2').value='';toast('Пароль сохранён');loadAdmins();
+};
 
 /* ---------- поддержка ---------- */
 function setBadge(n){const b=$('#nbadge');b.textContent=n;b.classList.toggle('hidden',!n)}
